@@ -10,23 +10,25 @@
 
 <div class="wrapper">
         <div class="logo">
-            <img src=/pictures/logo5.png alt="Kino Zippy logo">
+            <img src=/movie.png alt="Kino Zippy logo">
         </div>
+    <br>
         <div class="name name">
             Kino Zippy
         </div>
-        <form class="tester">
-            <div class="form-field lol">
-                <span class="far fa-user"></span>
-                <input type="text" name="username" id="username" placeholder="Brugernavn">
-            </div>
-            <div class="form-field d-flex align-items-center">
-                <span class="fas fa-key"></span>
-                <input type="password" name="password" id="password" placeholder="Adgangskode">
-            </div>
-            <button class="btn mt-3" onclick="login()">Login</button>
-            <script src="../js/login.js"></script>
-        </form>
+    <br>
+
+
+    <form>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username"><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password"><br><br>
+        <input type="button" value="Login" onclick="login()">
+    </form>
+    <script src="../js/login.js"></script>
+
+
 
 
 </div>
