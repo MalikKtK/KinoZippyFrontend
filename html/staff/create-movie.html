@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create a movie</title>
+    <link rel="stylesheet" href="../../css/navbar.css">
+    <script src="../../js/staff/promisHandling.js"></script>
+</head>
+<body>
+<div class="navbar">
+    <nav>
+        <div class="content">
+            <div class="logo"><a href="/">Kino Zippy</a></div>
+            <ul class="links">
+                <li><a href="../filmIBiografen.html">Film i biografen</a></li>
+                <li><a href="../shop.html">Shop</a></li>
+                <li><a href="../kommendeFilm.html">Kommende film</a></li>
+                <li><a href="../kontakt.html">Kontakt</a></li>
+                <li><a href="../login.html">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div class="createMovie">
+    <div class="container">
+        <h3>Add a movie:</h3>
+    </div>
+</div>
+<form action="http://localhost:8080/movie" method="post" id="formMovie">
+
+    <label for="title"></label>
+    <input type="text" name="title" id="title" placeholder="Movie title" required><br> <br>
+
+    <label for="ddAgeLimit"></label>
+    <select id="ddAgeLimit"></select> <br> <br>
+
+    <label for="ddCategory"></label>
+    <select id="ddCategory"></select> <br> <br>
+
+    <label for="length"></label>
+    <input type="text" name="length" id="length" placeholder="Length" required><br>
+
+    <button id="pbSubmitMovie">Add Movie</button>
+</form>
+<script src="../../js/staff/create-movie.js"></script>
+</body>
+
+</html>
