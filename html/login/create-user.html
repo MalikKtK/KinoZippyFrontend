@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create a user</title>
+  <link rel="stylesheet" href="../../css/navbar.css">
+  <script src="../../js/utils/promisHandling.js"></script>
+</head>
+<body>
+<div class="navbar">
+  <nav>
+    <div class="content">
+      <div class="logo"><a href="/">Kino Zippy</a></div>
+      <ul class="links">
+        <li><a href="../filmIBiografen.html">Film i biografen</a></li>
+        <li><a href="../shop.html">Shop</a></li>
+        <li><a href="../kommendeFilm.html">Kommende film</a></li>
+        <li><a href="../kontakt.html">Kontakt</a></li>
+        <li><a href="../login.html">Login</a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+<div class="createMovie">
+  <div class="container">
+    <h3>Add a movie:</h3>
+  </div>
+</div>
+<form action="http://localhost:8080/movie" method="post" id="formUser">
+
+  <label for="username"></label>
+  <input type="text" id="username" placeholder="Username"><br><br>
+  <label for="password"></label>
+  <input type="password" id="password" placeholder="Password"><br><br>
+  <label for="comfirmPassword"></label>
+  <input type="password" id="comfirmPassword" placeholder="Gentag adgangskode"><br><br>
+
+  <button id="pbSubmitMovie">Add Movie</button>
+</form>
+<script src="../../js/login/create-user.js"></script>
+</body>
+
+</html>
