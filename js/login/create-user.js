@@ -1,13 +1,33 @@
 let formUser;
-const dduserRole = document.getElementById("dduserRole")
 
-function createFormEventListener() {
-    formUser = document.getElementById("formUser")
-    formUser.addEventListener("submit", handleMovieFormSubmit)
+const ddRole = document.getElementById("ddRole")
+
+function fillRoleDropDown(role) {
+    const el = document.createElement("option")
+    el.textContent = role
+    el.value = role
+    ddRole.appendChild(el)
 }
 
+function fillRolesToDropDown(roles) {
+    roles.forEach(role => {
+        fillRoleDropDown(role)
+    })
+}
 
-async function handleMovieFormSubmit(event) {
+function createFormEventListener() {
+    getLocalEntities("user/roles").then(roles => {
+        fillRolesToDropDown(roles)
+    }).then(() => {
+        console.log("Roles are loaded")
+        formUser = document.getElementById("formUser")
+        formUser.addEventListener("submit", handleUserFormSubmit)
+    }).catch(error => {
+        console.log("error: ", error)
+    })
+}
+
+async function handleUserFormSubmit(event) {
     //Vi handler submit her, i stedet for default html behaviour
     event.preventDefault();
     const form = event.currentTarget;
@@ -15,7 +35,31 @@ async function handleMovieFormSubmit(event) {
     console.log(form)
     console.log(url)
     console.log(form === formUser)
+    const selectedUserRoleIndex = ddRole.selectedIndex
+    if (selectedUserRoleIndex < 0) {
+        alert("Vælg en UserRole")
+    } else {
+        const plainUserFormData = preparePlainFormData(form, addSelectedDropDowns)
+        console.log("plainUserFormData: ", plainUserFormData)
+
+        postLocalForm(url, plainUserFormData).then(data => {
+            if (data) {
+                console.log("data: ", data)
+                alert("User oprettet")
+            } else {
+                console.log("data: ", data)
+                alert("Der skete en fejl")
+            }
+        }).catch(error => {
+            console.log("error: ", error)
+        })
+    }
 }
 
+function addSelectedDropDowns(user) {
+    console.log("User:", user)
+    const selectedUserRoleIndex = ddRole.selectedIndex
+    user.role = ddRole.options[selectedUserRoleIndex].value
+}
 
 document.addEventListener('DOMContentLoaded', createFormEventListener);
