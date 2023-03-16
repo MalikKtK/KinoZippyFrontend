@@ -34,7 +34,7 @@ function updateCart() {
         var li = document.createElement("li");
         li.innerHTML = product.name + " - kr: " + product.price + " - Quantity: " + product.counter;
         cartItems.appendChild(li);
-        total += product.price * product.counter;
+        total += product.price;
     });
 
     cartTotal.innerHTML = "- kr: " + total.toFixed(2);
@@ -47,7 +47,7 @@ function checkout() {
     }
 
     var total = cart.reduce(function(sum, product) {
-        return sum + product.price * product.counter;
+        return sum + product.price;
     }, 0);
 
     alert("Your total is kr: " + total.toFixed(2) + ". Thank you for shopping!");
