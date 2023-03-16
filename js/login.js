@@ -6,10 +6,10 @@ function login() {
     // Check if the username and password are correct
     if (username === "manager" && password === "123") {
         // Redirect the user to the new HTML page
-        window.location.href = "index.html";
+        window.location.href = "manager.html";
     }
     else if (username === "shop" && password === "123") {
-        window.location.href = "index.html";
+        window.location.href = "shop.html";
     }
     else if (username === "operator" && password === "123") {
         window.location.href = "index.html";
@@ -22,11 +22,3 @@ function login() {
     }
 }
 
-fetch('http://localhost:8080/mywebapp/mymethod')
-    .then(response => response.json())
-    .then(data => {
-        console.log(data); // Process the data returned by the method
-    })
-    .catch(error => {
-        console.error(error); // Handle any errors that occur
-    });
