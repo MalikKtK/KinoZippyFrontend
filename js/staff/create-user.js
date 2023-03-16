@@ -16,7 +16,7 @@ function fillRolesToDropDown(roles) {
 }
 
 function createFormEventListener() {
-    getLocalEntities("user/roles").then(roles => {
+    getLocalEntities("employee/roles").then(roles => {
         fillRolesToDropDown(roles)
     }).then(() => {
         console.log("Roles are loaded")

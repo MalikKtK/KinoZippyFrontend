@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Create a user</title>
+  <title>Create a customer</title>
   <link rel="stylesheet" href="../../css/navbar.css">
   <script src="../../js/utils/promisHandling.js"></script>
 </head>
@@ -26,20 +26,18 @@
     <h3>Add a movie:</h3>
   </div>
 </div>
-<form action="http://localhost:8080/employee" method="post" id="formUser">
+<form action="http://localhost:8080/customer" method="post" id="formCustomer">
 
   <label for="username"></label>
   <input type="text" id="username" name="username" placeholder="Username"><br><br>
   <label for="password"></label>
   <input type="password" id="password" name="password" placeholder="Password"><br><br>
   <label for="comfirmPassword"></label>
-  <input type="password" id="comfirmPassword" placeholder="Gentag adgangskode"><br><br>
-  <label for="ddRole"></label>
-  <select id="ddRole"></select> <br> <br>
+  <input type="password" id="comfirmPassword" name="comfirmPassword" placeholder="Gentag adgangskode"><br><br>
 
   <button id="pbSubmitMovie">Add Movie</button>
 </form>
-<script src="../../js/login/create-user.js"></script>
+<script src="../../js/login/create-customer.js"></script>
 </body>
 
 </html>
