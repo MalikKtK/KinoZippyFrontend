@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Shop</title>
+  <meta charset="UTF-8">
+  <title>Shop</title>
   <link rel="stylesheet" href="../css/navbar.css">
+  <script src="../js/shop.js"></script>
+
 
 </head>
 <body>
 <div class="navbar">
   <nav>
     <div class="content">
-      <div class="logo"><a href="/">Kino Zippy</a></div>
+      <div class="logo"><a href="index.html">Kino Zippy</a></div>
       <ul class="links">
         <li><a href="filmIBiografen.html">Film i biografen</a></li>
         <li><a href="shop.html">Shop</a></li>
@@ -22,7 +24,30 @@
   </nav>
 </div>
 
-<h1>Add Ebus html</h1>
+<h1>Babus' Kiosk</h1>
+
+<div id="product-list">
+  <h2>Snacks</h2>
+  <ul>
+    <li>Popcorn 40kr -  <button onclick="addToCart(1)">Add to Cart</button></li>
+    <li>Popcorn 50kr -  <button onclick="addToCart(2)">Add to Cart</button></li>
+    <li>Popcorn 60kr -  <button onclick="addToCart(3)">Add to Cart</button></li>
+  </ul>
+  <h2>Drikkevare</h2>
+  <ul>
+    <li>Sodavand - 30kr <button onclick="addToCart(4)">Add to Cart</button></li>
+    <li>Sodavand - 40kr <button onclick="addToCart(5)">Add to Cart</button></li>
+    <li>Sodavand - 50kr <button onclick="addToCart(6)">Add to Cart</button></li>
+  </ul>
+</div>
+
+<div id="cart">
+  <h2>Cart</h2>
+  <ul id="cart-items">
+  </ul>
+  <p>Total: <span id="cart-total">kr - 0.00</span></p>
+  <button onclick="checkout()">Checkout</button>
+</div>
 
 </body>
 </html>
