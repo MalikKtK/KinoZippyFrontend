@@ -56,10 +56,10 @@ async function handleUserFormSubmit(event) {
     }
 }
 
-function addSelectedDropDowns(user) {
-    console.log("User:", user)
-    const selectedUserRoleIndex = ddRole.selectedIndex
-    user.role = ddRole.options[selectedUserRoleIndex].value
+function addSelectedDropDowns(employee) {
+    console.log("Employee:", employee)
+    const seletecdEmployeeRoleIndex = ddRole.selectedIndex
+    employee.role = ddRole.options[seletecdEmployeeRoleIndex].value
 }
 
 document.addEventListener('DOMContentLoaded', createFormEventListener);
