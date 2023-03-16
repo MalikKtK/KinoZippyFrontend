@@ -1,56 +1,152 @@
-const table = document.querySelector("#table_of_seats");
+// TMP SESSION STORAGE
+sessionStorage.setItem("user", {"id": 5, "username": "c1", "password": "123"});
+sessionStorage.setItem("showTimeId", "1");
 
-// Define the number of rows and columns
-async function createTheaterTable() {
-    let theater = await getTheaterSeatInfo();
-    let numRows = theater.seatRow;
-    let numCols = theater.seatNumber;
+async function createTable() {
+    let showTime = await getShowTimeInfo();
 
-    // Loop through the rows and create the table cells
-    for (let i = 1; i <= numRows; i++) {
-        // Create a new row element
+    console.log("showTime");
+    await console.log(showTime);
+
+    // Define the number of rows and columns
+    const numRows = showTime.theater.rows;
+    const numCols = showTime.theater.numberedSeats;
+
+    // Define an array of disabled positions
+    const disabledPositions = showTime.tickets.map(ticket => `${ticket.seatRow}_${ticket.seatNumber}`);
+
+    // Keep track of the currently selected button
+    let selectedButton = null;
+
+    // Create the table body
+    const tableBody = document.getElementById("table_of_seats");
+
+    // Button for seat selection
+    let seatButton = document.getElementById("select_seat_btn");
+
+    seatButton.addEventListener("click", () => {
+        if (selectedButton) {
+            // alert(`You selected seat ${selectedButton.innerText}`);
+            const [seatRow, seatNumber] = selectedButton.id.split("_");
+            postTicket(seatRow, seatNumber, showTime.id);
+            console.log(seatRow);
+            console.log(seatNumber);
+        } else {
+            alert("Please select a seat");
+        }
+    });
+
+    // Create the table rows and cells
+    for (let i = 0; i < numRows; i++) {
         const row = document.createElement("tr");
 
-        // Loop through the columns and create the table cells
-        for (let j = 1; j <= numCols; j++) {
-            // Create a new cell element
+        for (let j = 0; j < numCols; j++) {
             const cell = document.createElement("td");
+            const button = document.createElement("button");
+            button.classList.add("btn");
+            button.classList.add("btn-sm");
+            // button.classList.add("btn-secondary");
 
-            // Set the cell's text content to the row and column number
-            // cell.textContent = `[${i}-${j}]`;
-            cell.textContent = '[' + String(i).padStart(2, ' ') + '-' + String(j).padStart(2, ' ') + ']';
+            // Set the button ID to the cell position
+            button.id = `${i + 1}_${j + 1}`;
 
-            // Append the cell to the row
+            // Set the button label to the cell position
+            button.innerText = `${i + 1}:${j + 1}`;
+
+            // Disable the button if its position is in the disabledPositions array
+            if (disabledPositions.includes(button.id)) {
+                button.disabled = true;
+                button.classList.add("btn-danger");
+            }
+
+            // Add event listeners for hover and click
+            button.addEventListener("mouseover", () => {
+                button.classList.add("btn-primary");
+            });
+
+            button.addEventListener("mouseout", () => {
+                button.classList.remove("btn-primary");
+                if (selectedButton !== button) {
+                    button.classList.remove("active");
+                }
+            });
+
+            button.addEventListener("click", () => {
+                if (selectedButton !== button) {
+                    // If a different button is selected, remove the "btn-success" class from all buttons
+                    const buttons = document.querySelectorAll(".btn");
+                    buttons.forEach((btn) => {
+                        btn.classList.remove("btn-success");
+                        btn.classList.remove("active");
+                    });
+                    // Set the current button as selected and add the "btn-success" class
+                    selectedButton = button;
+                    button.classList.add("btn-success");
+                    button.classList.add("active");
+                } else {
+                    // If the same button is selected, deselect it
+                    selectedButton = null;
+                    button.classList.remove("btn-success");
+                }
+            });
+
+            cell.appendChild(button);
             row.appendChild(cell);
         }
 
-        // Append the row to the table
-        table.appendChild(row);
+        tableBody.appendChild(row);
     }
 }
 
-async function getTheaterSeatInfo() {
+async function postTicket(seatRow, seatNumber, showtimeId) {
+    const ticket = {
+        showTime: {
+            id: showtimeId,
+        },
+        seatRow: parseInt(seatRow),
+        seatNumber: parseInt(seatNumber),
+        price: 120.0,
+        paid: false,
+    };
+
+    const url = "http://localhost:8080/ticket";
+
+    fetch(url, {
+        method: "POST",
+        body: JSON.stringify(ticket),
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to create ticket");
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert(`Ticket created with ID ${data.id}`);
+        })
+        .catch(error => {
+            console.error(error);
+            alert("An error occurred while creating the ticket");
+        });
+
+
+}
+
+async function getShowTimeInfo() {
     // Send the GET request to the server
-    return fetch('http://localhost:8080/theater/1')
+    return fetch('http://localhost:8080/showtime/' + sessionStorage.getItem("showTimeId"))
         .then(response => response.json())  // Convert the response to JSON format
         .then(data => {
-            // Read the seatRow and seatNumber values from the response data
-            const seatRow = data.seatRow;
-            const seatNumber = data.seatNumber;
-
-            // Return the seatRow and seatNumber values as an object
-            return {
-                seatRow: seatRow,
-                seatNumber: seatNumber
-            };
+            return data;
         })
         .catch(error => {
             console.error('Error:', error);
         });
 }
 
-// Call the createTheaterTable function to create the table
-createTheaterTable();
-
+createTable();
 
 
