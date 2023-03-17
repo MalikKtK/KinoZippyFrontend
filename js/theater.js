@@ -1,6 +1,6 @@
 // TMP SESSION STORAGE
 sessionStorage.setItem("user", {"id": 5, "username": "c1", "password": "123"});
-sessionStorage.setItem("showTimeId", "1");
+// sessionStorage.setItem("showTimeId", "1");
 
 async function createTable() {
     let showTime = await getShowTimeInfo();
@@ -22,15 +22,15 @@ async function createTable() {
     const tableBody = document.getElementById("table_of_seats");
 
     // Button for seat selection
-    let seatButton = document.getElementById("select_seat_btn");
+    let SelectedSeatButton = document.getElementById("select_seat_btn");
 
-    seatButton.addEventListener("click", () => {
+    SelectedSeatButton.addEventListener("click", () => {
         if (selectedButton) {
-            // alert(`You selected seat ${selectedButton.innerText}`);
             const [seatRow, seatNumber] = selectedButton.id.split("_");
-            postTicket(seatRow, seatNumber, showTime.id);
-            console.log(seatRow);
-            console.log(seatNumber);
+            postTicket(seatRow, seatNumber, showTime.id).then(() => {
+                alert("Ticket purchased successfully");
+                window.location.href = 'upcomingMovies.html';
+            });
         } else {
             alert("Please select a seat");
         }
@@ -98,10 +98,12 @@ async function createTable() {
     }
 }
 
-async function postTicket(seatRow, seatNumber, showtimeId) {
+async function postTicket(seatRow, seatNumber, showTimeId) {
+    const url = "http://localhost:8080/ticket";
+
     const ticket = {
         showTime: {
-            id: showtimeId,
+            id: showTimeId,
         },
         seatRow: parseInt(seatRow),
         seatNumber: parseInt(seatNumber),
@@ -109,30 +111,24 @@ async function postTicket(seatRow, seatNumber, showtimeId) {
         paid: false,
     };
 
-    const url = "http://localhost:8080/ticket";
-
-    fetch(url, {
-        method: "POST",
-        body: JSON.stringify(ticket),
-        headers: {
-            "Content-Type": "application/json",
-        },
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Failed to create ticket");
-            }
-            return response.json();
-        })
-        .then(data => {
-            alert(`Ticket created with ID ${data.id}`);
-        })
-        .catch(error => {
-            console.error(error);
-            alert("An error occurred while creating the ticket");
+    try {
+        const response = await fetch(url, {
+            method: "POST",
+            body: JSON.stringify(ticket),
+            headers: {
+                "Content-Type": "application/json",
+            },
         });
 
+        if (!response.ok) {
+            throw new Error("Failed to create ticket");
+        }
 
+        const data = await response.json();
+    } catch (error) {
+        console.error(error);
+        alert("An error occurred while creating the ticket");
+    }
 }
 
 async function getShowTimeInfo() {
