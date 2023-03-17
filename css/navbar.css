@@ -6,7 +6,17 @@ body {
 
 .topnav {
     overflow: hidden;
-    background-color: #333;
+    background-color: rgba(51, 51, 51, 1);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Set a high z-index value */
+
+}
+
+.disabled-button {
+    opacity: 0.5; /* Reduce opacity of button when disabled */
+    z-index: 999; /* Set a lower z-index value than navigation bar */
 }
 
 .topnav a {
