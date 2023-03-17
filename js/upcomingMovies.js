@@ -1,3 +1,86 @@
+getMovieSchedule().then(movieSchedule => {
+    // get the unordered list element
+    const movieList = document.getElementById("movie_list");
+    movieList.classList.add('list-unstyled');
+
+    // loop through each movie in the movie schedule
+    for (const movieId in movieSchedule) {
+        const movie = movieSchedule[movieId];
+
+        // create a new list item element for the movie
+        const movieItem = document.createElement("li");
+        movieItem.classList.add('d-flex', 'justify-content-between');
+
+        // add the movie title to the list item
+        const movieTitle = document.createTextNode(movie.title);
+        movieItem.appendChild(movieTitle);
+
+        // // template literal string
+        // const movieTemplate = `
+        //     <div class="d-flex" id="movie_" + >
+        //         <div class="top_content">movieTitle</div>
+        //         <div class="schedule d-flex justify-content-between"></div>
+        //     </div>
+        //     `;
+        //
+        // // create a new element and set its innerHTML to the showtimeButton string
+        // const movieCompleteDiv = document.createElement('div');
+        // movieCompleteDiv.innerHTML = movieTemplate;
+        //
+        // movieItem = document.getElementById()
+
+        // create schedule for the next few days
+        const scheduleLength = 7;
+        const startDate = new Date();
+        const schedule = createSchedule(startDate, scheduleLength);
+
+        // group showTimes by day
+        const showTimesByDay = {};
+        for (const showtime of movie.showtimes) {
+            const showtimeDate = new Date(showtime.startTime);
+            const differenceTime = showtimeDate.getTime() - startDate.getTime();
+            const differenceDays = Math.ceil(differenceTime / (1000 * 3600 * 24));
+            const dayOfWeek = schedule[differenceDays];
+            if (!showTimesByDay[dayOfWeek]) {
+                showTimesByDay[dayOfWeek] = [];
+            }
+            showTimesByDay[dayOfWeek].push(showtime);
+        }
+
+        // create columns for each day
+        const columns = {};
+        for (const day of schedule) {
+            const column = document.createElement('ul');
+            column.classList.add('list-unstyled');
+            columns[day] = column;
+            const columnHeading = document.createElement('p');
+            columnHeading.classList.add('text-center');
+            columnHeading.textContent = day;
+            column.appendChild(columnHeading);
+        }
+
+        // loop through each day and add showTimes to the corresponding column
+        for (const day of schedule) {
+            const column = columns[day];
+            const showTimes = showTimesByDay[day] || [];
+            for (const showtime of showTimes) {
+                const timeSlotButton = createTimeSlotButton(showtime);
+                column.appendChild(timeSlotButton);
+            }
+        }
+
+        // add columns to the movie item
+        for (const day of schedule) {
+            const column = columns[day];
+            const listItem = document.createElement('div');
+            listItem.appendChild(column);
+            movieItem.appendChild(listItem);
+        }
+
+        movieList.appendChild(movieItem);
+    }
+});
+
 async function getMovieSchedule() {
     let showTimes = await getShowTimes();
 
@@ -33,105 +116,41 @@ async function getShowTimes() {
         });
 }
 
+function createSchedule(startDate, numberOfDays) {
+    let schedule = [];
 
-getMovieSchedule().then(data => {
-    // get the unordered list element
-    const movieList = document.getElementById("movie_list");
-    movieList.classList.add('list-unstyled');
-
-    // fetch the movie schedule from the backend
-    const movieSchedule = data;
-
-    // loop through each movie in the movie schedule
-    for (const movieId in movieSchedule) {
-        const movie = movieSchedule[movieId];
-
-        // create a new list item element for the movie
-        const movieItem = document.createElement("li");
-        movieItem.classList.add('d-flex');
-
-        // add the movie title to the list item
-        const movieTitle = document.createTextNode(movie.title);
-        movieItem.appendChild(movieTitle);
-
-
-        // group showTimes by day of the week
-        const showtimesByDay = {};
-        for (const showtime of movie.showtimes) {
-            const dayOfWeek = new Date(showtime.startTime).toLocaleDateString(undefined, {weekday: 'long'});
-            if (!showtimesByDay[dayOfWeek]) {
-                showtimesByDay[dayOfWeek] = [];
-            }
-            showtimesByDay[dayOfWeek].push(showtime);
-        }
-
-        // create 7 columns for each day of the week
-        const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        const columns = {};
-        for (const dayName of dayNames) {
-            const column = document.createElement('ul');
-            column.classList.add('list-unstyled');
-            columns[dayName] = column;
-            const columnHeading = document.createElement('p');
-            columnHeading.classList.add('text-center');
-            columnHeading.textContent = dayName;
-            column.appendChild(columnHeading);
-        }
-
-        // loop through each showtime for each day and add to the corresponding column
-        for (const dayName of dayNames) {
-            const column = columns[dayName];
-            const showtimes = showtimesByDay[dayName] || [];
-            for (const showtime of showtimes) {
-                const timeSlotButton = createTimeSlot(showtime);
-                column.appendChild(timeSlotButton);
-            }
-        }
-
-        for (const dayName of dayNames) {
-            const column = columns[dayName];
-            const listItem = document.createElement('div');
-            listItem.appendChild(column);
-            movieItem.appendChild(listItem);
-        }
-
-        movieList.appendChild(movieItem);
-
-
+    for (let i = 0; i < numberOfDays; i++) {
+        const date = new Date(startDate);
+        date.setDate(date.getDate() + i);
+        schedule.push(`${date.toLocaleDateString(undefined, {weekday: 'long'})} ${date.getDate()}/${date.getMonth() + 1}`);
     }
 
-    console.log(JSON.stringify(data, null, 2));
-});
+    return schedule;
+}
 
-function createTimeSlot(showtime) {
-    const showtimeButton = document.createElement('div');
-
-    // create 3 small elements
-    const e1 = document.createElement('small');
-    const e2 = document.createElement('small');
-    const e3 = document.createElement('small');
-
-    // add text to each element
-    e1.innerText = showtime.theater.name;
-
+function createTimeSlotButton(showtime) {
     const startTime = new Date(showtime.startTime);
-    e2.innerText = `${startTime.getHours()}:${startTime.getMinutes()}`;
-
     const totalSeats = showtime.theater.rows * showtime.theater.numberedSeats;
-    e3.innerText = `${(totalSeats - showtime.tickets.length)} / ${totalSeats}`;
+    const availableSeats = totalSeats - showtime.tickets.length;
 
-    // append each paragraph element to the div element
-    showtimeButton.appendChild(e1);
-    showtimeButton.appendChild(e2);
-    showtimeButton.appendChild(e3);
+    // template literal string
+    const showtimeTemplate = `
+        <div class="btn btn-primary btn-block d-flex flex-column">
+            <div>${showtime.theater.name}</div>
+            <div>${startTime.getHours()}:${startTime.getMinutes()}</div>
+            <div>${availableSeats} / ${totalSeats}</div>
+        </div>
+    `;
 
-    showtimeButton.classList.add('btn', 'btn-primary', 'btn-block', 'd-flex', 'flex-column');
+    // create a new element and set its innerHTML to the showtimeButton string
+    const buttonElement = document.createElement('div');
+    buttonElement.innerHTML = showtimeTemplate;
 
-    // add event listener to the button
-    showtimeButton.addEventListener('click', () => {
+    // add event listener to the new element
+    buttonElement.addEventListener('click', () => {
         sessionStorage.setItem('showTimeId', showtime.id);
         window.location.href = "theater.html";
     });
 
-    return showtimeButton;
+    return buttonElement;
 }

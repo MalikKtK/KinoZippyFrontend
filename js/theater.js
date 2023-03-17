@@ -99,6 +99,8 @@ async function createTable() {
 }
 
 async function postTicket(seatRow, seatNumber, showTimeId) {
+    const url = "http://localhost:8080/ticket";
+
     const ticket = {
         showTime: {
             id: showTimeId,
@@ -109,30 +111,24 @@ async function postTicket(seatRow, seatNumber, showTimeId) {
         paid: false,
     };
 
-    const url = "http://localhost:8080/ticket";
-
-    fetch(url, {
-        method: "POST",
-        body: JSON.stringify(ticket),
-        headers: {
-            "Content-Type": "application/json",
-        },
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Failed to create ticket");
-            }
-            return response.json();
-        })
-        .then(data => {
-            alert(`Ticket created with ID ${data.id}`);
-        })
-        .catch(error => {
-            console.error(error);
-            alert("An error occurred while creating the ticket");
+    try {
+        const response = await fetch(url, {
+            method: "POST",
+            body: JSON.stringify(ticket),
+            headers: {
+                "Content-Type": "application/json",
+            },
         });
 
+        if (!response.ok) {
+            throw new Error("Failed to create ticket");
+        }
 
+        const data = await response.json();
+    } catch (error) {
+        console.error(error);
+        alert("An error occurred while creating the ticket");
+    }
 }
 
 async function getShowTimeInfo() {
