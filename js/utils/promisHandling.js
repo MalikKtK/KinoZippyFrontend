@@ -39,7 +39,7 @@ async function getAnyEntities(url) {
 }
 
 function getLocalEntity(entityClassName, entityID) {
-    const restGetUrl = restUrl + entityClassName + "/{" + entityID + "}"
+    const restGetUrl = restUrl + entityClassName + "/" + entityID
     return fetchAnyJson(restGetUrl)
 }
 

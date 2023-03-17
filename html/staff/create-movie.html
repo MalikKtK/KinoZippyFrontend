@@ -38,7 +38,10 @@
     <select id="ddCategory"></select> <br> <br>
 
     <label for="length"></label>
-    <input type="text" name="length" id="length" placeholder="Length" required><br>
+    <input type="number" name="length" id="length" placeholder="Length" required><br><br>
+
+    <label for="rating"></label>
+    <input type="number" name="rating" id="rating" placeholder="Rating 1-10" required min="1" max="10" step="1"><br> <br>
 
     <button id="pbSubmitMovie">Add Movie</button>
 </form>
