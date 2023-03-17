@@ -83,13 +83,13 @@ function createTitleInput(movie) {
 
 function createAgeLimitInput(movie) {
     const ageLimitDropdown = document.createElement("select");
-    const labelAgeLimit = `<label htmlFor="ddAgeLimit">AgeLimit: ${movie.ageLimit}</label>`;
+    const labelAgeLimit = `<label For="ddAgeLimit">AgeLimit: ${movie.ageLimit}</label>`;
     ageLimitDropdown.id = "ddAgeLimit";
     return labelAgeLimit + ageLimitDropdown.outerHTML + "<br><br>";
 }
 
 function createCategoryInput(movie) {
-    const labelCategory = `<label htmlFor="ddCategory">Category: ${movie.category}</label>`;
+    const labelCategory = `<label For="ddCategory">Category: ${movie.category}</label>`;
     const categoryDropdown = document.createElement("select");
     categoryDropdown.id = "ddCategory";
     return labelCategory + categoryDropdown.outerHTML + "<br><br>";
@@ -112,6 +112,10 @@ function createSubmitButton(movie) {
     console.log(movie);
 
     return `<button onclick="updateMovie(${movie.id})" id="pbSubmit">Edit Movie</button>`;
+}
+
+function deleteSubmitButton(movie) {
+    return `<button onclick="deleteMovie(${movie.id})" id="pbSubmit">Delete Movie</button>`;
 }
 
 
@@ -143,6 +147,26 @@ function updateMovie(movieId) {
     });
 }
 
+function deleteMovie(movieId) {
+    getLocalEntity("movie", movieId).then(movie => {
+        console.log(movie);
+        return movie;
+    }).then(movie => {
+        deleteLocalEntity("movie", movie, movie.id)
+
+            .then((result) => {
+                if (result) {
+                    alert("Movie deleted");
+                } else {
+                    alert("Movie is not deleted");
+                }
+            }).catch((error) => {
+            alert("Could not reach server");
+            console.log(error);
+        });
+})
+}
+
 async function selectMovie() {
     tableMovie.innerHTML = ""
     try {
@@ -150,6 +174,7 @@ async function selectMovie() {
         console.log(selectedMovie)
         tableMovie.innerHTML = await createMovieInputs(selectedMovie)
         tableMovie.innerHTML += createSubmitButton(selectedMovie)
+        tableMovie.innerHTML += deleteSubmitButton(selectedMovie)
         getLocalEntities("movie/agelimits")
             .then(ageLimits => {
                 const fillAgeLimit = document.getElementById("ddAgeLimit");
