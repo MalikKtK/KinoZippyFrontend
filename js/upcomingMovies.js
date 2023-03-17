@@ -7,29 +7,25 @@ getMovieSchedule().then(movieSchedule => {
     for (const movieId in movieSchedule) {
         const movie = movieSchedule[movieId];
 
-        // create a new list item element for the movie
-        const movieItem = document.createElement("li");
-        movieItem.classList.add('d-flex', 'justify-content-between');
+        // template literal string
+        const movieTemplate = `
+            <div class="d-flex flex-column" >
+                <div class="movie_info d-flex justify-content-between">
+                    <p><b>${movie.title}</b></p>
+                    <p>${movie.ageLimit}</p>
+                    <p>${movie.category}</p>
+                    <p>${movie.length} min</p>
+                </div>
+                <div class="movie_schedule d-flex justify-content-between"></div>
+            </div>
+        `;
 
-        // add the movie title to the list item
-        const movieTitle = document.createTextNode(movie.title);
-        movieItem.appendChild(movieTitle);
-
-        // // template literal string
-        // const movieTemplate = `
-        //     <div class="d-flex" id="movie_" + >
-        //         <div class="top_content">movieTitle</div>
-        //         <div class="schedule d-flex justify-content-between"></div>
-        //     </div>
-        //     `;
-        //
-        // // create a new element and set its innerHTML to the showtimeButton string
-        // const movieCompleteDiv = document.createElement('div');
-        // movieCompleteDiv.innerHTML = movieTemplate;
-        //
-        // movieItem = document.getElementById()
+        // create a new element and set its innerHTML to the showtimeButton string
+        const movieElement = document.createElement('div');
+        movieElement.innerHTML = movieTemplate;
 
         // create schedule for the next few days
+        const scheduleElement = movieElement.querySelector('.movie_schedule');
         const scheduleLength = 7;
         const startDate = new Date();
         const schedule = createSchedule(startDate, scheduleLength);
@@ -74,23 +70,26 @@ getMovieSchedule().then(movieSchedule => {
             const column = columns[day];
             const listItem = document.createElement('div');
             listItem.appendChild(column);
-            movieItem.appendChild(listItem);
+            scheduleElement.appendChild(listItem);
         }
 
-        movieList.appendChild(movieItem);
+        movieList.appendChild(movieElement);
     }
 });
 
 async function getMovieSchedule() {
     let showTimes = await getShowTimes();
 
-    const movies = showTimes.reduce((acc, showtime) => {
+    return showTimes.reduce((acc, showtime) => {
         const movieId = showtime.movie.id;
-        const movieTitle = showtime.movie.title;
 
         if (!acc[movieId]) {
             acc[movieId] = {
-                title: movieTitle,
+                id: movieId,
+                title: showtime.movie.title,
+                ageLimit: showtime.movie.ageLimit,
+                category: showtime.movie.category,
+                length: showtime.movie.length,
 
                 showtimes: []
             };
@@ -98,9 +97,6 @@ async function getMovieSchedule() {
         acc[movieId].showtimes.push(showtime);
         return acc;
     }, {});
-
-
-    return movies;
 }
 
 
@@ -137,7 +133,7 @@ function createTimeSlotButton(showtime) {
     const showtimeTemplate = `
         <div class="btn btn-primary btn-block d-flex flex-column">
             <div>${showtime.theater.name}</div>
-            <div>${startTime.getHours()}:${startTime.getMinutes()}</div>
+            <div>${startTime.getHours()}:${startTime.getMinutes().toString().padStart(2, '0')}</div>
             <div>${availableSeats} / ${totalSeats}</div>
         </div>
     `;
