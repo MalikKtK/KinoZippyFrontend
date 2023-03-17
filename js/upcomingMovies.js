@@ -1,26 +1,31 @@
-getMovieSchedule().then(movieSchedule => {
+main();
+
+async function main() {
+    const movieSchedule = await getMovieSchedule();
+
     // get the unordered list element
     const movieList = document.getElementById("movie_list");
     movieList.classList.add('list-unstyled');
 
     // loop through each movie in the movie schedule
     for (const movieId in movieSchedule) {
-        const movie = movieSchedule[movieId];
+        // const movie = movieSchedule[movieId];
+        const { title, ageLimit, category, length, showTimes} = movieSchedule[movieId];
 
         // template literal string
         const movieTemplate = `
             <div class="d-flex flex-column" >
                 <div class="movie_info d-flex justify-content-between">
-                    <p><b>${movie.title}</b></p>
-                    <p>${movie.ageLimit}</p>
-                    <p>${movie.category}</p>
-                    <p>${movie.length} min</p>
+                    <p><b>${title}</b></p>
+                    <p>${ageLimit}</p>
+                    <p>${category}</p>
+                    <p>${length} min</p>
                 </div>
                 <div class="movie_schedule d-flex justify-content-between"></div>
             </div>
         `;
 
-        // create a new element and set its innerHTML to the showtimeButton string
+        // create a container for all movie info
         const movieElement = document.createElement('div');
         movieElement.innerHTML = movieTemplate;
 
@@ -32,7 +37,7 @@ getMovieSchedule().then(movieSchedule => {
 
         // group showTimes by day
         const showTimesByDay = {};
-        for (const showtime of movie.showtimes) {
+        for (const showtime of showTimes) {
             const showtimeDate = new Date(showtime.startTime);
             const differenceTime = showtimeDate.getTime() - startDate.getTime();
             const differenceDays = Math.ceil(differenceTime / (1000 * 3600 * 24));
@@ -75,27 +80,27 @@ getMovieSchedule().then(movieSchedule => {
 
         movieList.appendChild(movieElement);
     }
-});
+}
 
 async function getMovieSchedule() {
     let showTimes = await getShowTimes();
 
-    return showTimes.reduce((acc, showtime) => {
+    return showTimes.reduce((movieSchedule, showtime) => {
         const movieId = showtime.movie.id;
 
-        if (!acc[movieId]) {
-            acc[movieId] = {
+        if (!movieSchedule[movieId]) {
+            movieSchedule[movieId] = {
                 id: movieId,
                 title: showtime.movie.title,
                 ageLimit: showtime.movie.ageLimit,
                 category: showtime.movie.category,
                 length: showtime.movie.length,
 
-                showtimes: []
+                showTimes: []
             };
         }
-        acc[movieId].showtimes.push(showtime);
-        return acc;
+        movieSchedule[movieId].showTimes.push(showtime);
+        return movieSchedule;
     }, {});
 }
 
@@ -150,3 +155,4 @@ function createTimeSlotButton(showtime) {
 
     return buttonElement;
 }
+
