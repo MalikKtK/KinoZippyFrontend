@@ -43,6 +43,11 @@ function getLocalEntity(entityClassName, entityID) {
     return fetchAnyJson(restGetUrl)
 }
 
+function getLocalEntityAttribute(entityClassName, entityID, attributeName) {
+    const restGetUrl = restUrl + entityClassName + "/" + entityID + "/" + attributeName
+    return fetchAnyJson(restGetUrl)
+}
+
 function getLocalEntities(entitiesClassName) {
     const entitiesLocalUrl = restUrl + entitiesClassName
     return getAnyEntities(entitiesLocalUrl)
