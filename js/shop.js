@@ -14,20 +14,20 @@ async function handleShopFormSubmit(event) {
     console.log(form)
     console.log(url)
     console.log(form === formShop)
-    const plainShopFormData = preparePlainFormData(form, print)
-    console.log("plainShopFormData: ", plainShopFormData)
+        const plainShopFormData = preparePlainFormData(form, print)
+        console.log("plainShopFormData: ", plainShopFormData)
 
-    postLocalForm(url, plainShopFormData).then(data => {
-        if (data) {
-            console.log("data: ", data)
-            alert("Item oprettet")
-        } else {
-            console.log("data: ", data)
-            alert("Der skete en fejl")
-        }
-    }).catch(error => {
-        console.log("error: ", error)
-    })
+        postLocalForm(url, plainShopFormData).then(data => {
+            if (data) {
+                console.log("data: ", data)
+                alert("Item oprettet")
+            } else {
+                console.log("data: ", data)
+                alert("Der skete en fejl")
+            }
+        }).catch(error => {
+            console.log("error: ", error)
+        })
 }
 function print(shop) {
     console.log("Shop:", shop)
