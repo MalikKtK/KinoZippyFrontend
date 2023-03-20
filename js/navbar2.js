@@ -1,6 +1,6 @@
 
 $(function(){
-    $("#nav-placeholder").load("../html/navbar.html");
+    $("#nav-placeholder").load("../navbar.html");
 });
 function myFunction() {
     const x = document.getElementById("myTopnav");
