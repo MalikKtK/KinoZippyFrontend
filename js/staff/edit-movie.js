@@ -1,6 +1,7 @@
 const ddFindMovie = document.getElementById("ddFindMovie");
 const tableMovie = document.getElementById("tableMovie");
 
+
 function fillAgeLimitDropDown(ageLimit, ageLimitDropdown) {
     const el = document.createElement("option")
     el.textContent = ageLimit
@@ -185,6 +186,9 @@ async function selectMovie() {
                 const fillCategory = document.getElementById("ddCategory");
                 fillCategoriesToDropDown(categories, fillCategory);
                 fillCategory.value = selectedMovie.category;
+                return getLocalEntityAttribute("movie", selectedMovie.id, "showtimes")
+        }).then(showtimes => {
+            console.log("Showtimes ", showtimes)
         })
 
     } catch (Error) {
