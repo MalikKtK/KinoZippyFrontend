@@ -2,44 +2,40 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Shop</title>
+  <title>Create a movie</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="../css/navbar.css">
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
   <script src="../js/navbar2.js" defer></script>
-
-
+  <script src="../js/utils/promisHandling.js"></script>
 </head>
 <body>
-<!--Navigation bar-->
 <div id="nav-placeholder"> </div>
-<!--end of Navigation bar-->
-
-<br>
-<h1>Babus' Kiosk</h1>
-
-<div id="product-list">
-  <h2>Snacks</h2>
-  <ul>
-    <li>Popcorn 40kr -  <button onclick="addToCart(1)">Add to Cart</button></li>
-    <li>Popcorn 50kr -  <button onclick="addToCart(2)">Add to Cart</button></li>
-    <li>Popcorn 60kr -  <button onclick="addToCart(3)">Add to Cart</button></li>
-  </ul>
-  <h2>Drikkevare</h2>
-  <ul>
-    <li>Sodavand - 30kr <button onclick="addToCart(4)">Add to Cart</button></li>
-    <li>Sodavand - 40kr <button onclick="addToCart(5)">Add to Cart</button></li>
-    <li>Sodavand - 50kr <button onclick="addToCart(6)">Add to Cart</button></li>
-  </ul>
+<div class="createMovie">
+  <div class="container">
+    <h3>Add a movie:</h3>
+  </div>
 </div>
+<form action="http://localhost:8080/shop" method="post" id="formShop">
 
-<div id="cart">
-  <h2>Cart</h2>
-  <ul id="cart-items">
-  </ul>
-  <p>Total: <span id="cart-total">kr - 0.00</span></p>
-  <button onclick="checkout()">Checkout</button>
-</div>
+  <label for="name"></label>
+  <input type="text" name="name" id="name" placeholder="Item name" required><br> <br>
 
+  <label for="price"></label>
+  <input type="number" name="price" id="price" placeholder="price" required><br><br>
+
+  <label for="quantity"></label>
+  <input type="number" name="quantity" id="quantity" placeholder="quantity" required min="1" max="10" step="1"><br> <br>
+
+  <button id="pbSubmitShop">Add Movie</button>
+  <div class="cart">
+    <h3>Cart:</h3>
+    <button id="pbViewCart">View Cart</button>
+    <button id="pbClearCart">Clear Cart</button>
+  </div>
+
+</form>
+<script src="../js/shop.js"></script>
 </body>
+
 </html>
