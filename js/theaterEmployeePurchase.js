@@ -1,19 +1,35 @@
 // TMP SESSION STORAGE
 sessionStorage.setItem("user", {"id": 5, "username": "c1", "password": "123"});
-// sessionStorage.setItem("showTimeId", "1");
+sessionStorage.setItem("showTimeId", "1");
 
 async function createTable() {
     let showTime = await getShowTimeInfo();
 
-    console.log("showTime");
-    await console.log(showTime);
+    const price = document.getElementById("price");
+    price.innerText = `price: ${showTime.price} dkk`;
+
+    const ddCategory = document.getElementById("ddCategory")
+
+    function fillAgeLimitDropDown(ageLimit) {
+        const el = document.createElement("option")
+        el.textContent = ageLimit
+        el.value = ageLimit
+        ddAgeLimit.appendChild(el)
+    }
+
 
     // Define the number of rows and columns
     const numRows = showTime.theater.rows;
     const numCols = showTime.theater.numberedSeats;
 
     // Define an array of disabled positions
-    const disabledPositions = showTime.tickets.map(ticket => `${ticket.seatRow}_${ticket.seatNumber}`);
+    const tickets = await getShowTimeTickets();
+    const disabledPositions = tickets.map(ticket => `${ticket.seatRow}_${ticket.seatNumber}`);
+
+    getShowTimeTickets().then((tickets) => {
+        console.log("tickets");
+        console.log(JSON.stringify(tickets));
+    });
 
     // Keep track of the currently selected button
     let selectedButton = null;
@@ -27,7 +43,7 @@ async function createTable() {
     SelectedSeatButton.addEventListener("click", () => {
         if (selectedButton) {
             const [seatRow, seatNumber] = selectedButton.id.split("_");
-            postTicket(seatRow, seatNumber, showTime.id).then(() => {
+            postTicket(seatRow, seatNumber, showTime.id, showTime.price).then(() => {
                 alert("Ticket purchased successfully");
                 window.location.href = 'upcomingMovies.html';
             });
@@ -57,6 +73,7 @@ async function createTable() {
             if (disabledPositions.includes(button.id)) {
                 button.disabled = true;
                 button.classList.add("btn-danger");
+                button.type = "button";
             }
 
             // Add event listeners for hover and click
@@ -98,7 +115,32 @@ async function createTable() {
     }
 }
 
-async function postTicket(seatRow, seatNumber, showTimeId) {
+async function createCustomerDD() {
+    const ddCustomer = document.getElementById("ddCustomer")
+
+    const customers = await getCustomers();
+
+    customers.forEach(customer => {
+        const el = document.createElement("option")
+        el.textContent = `[${customer.id}] : ${customer.username}`;
+        el.value = customers.id;
+        ddCustomer.appendChild(el)
+    });
+}
+
+async function getCustomers() {
+    // Send the GET request to the server
+    return fetch('http://localhost:8080/customers')
+        .then(response => response.json())  // Convert the response to JSON format
+        .then(data => {
+            return data;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+async function postTicket(seatRow, seatNumber, showTimeId, price) {
     const url = "http://localhost:8080/ticket";
 
     const ticket = {
@@ -107,8 +149,9 @@ async function postTicket(seatRow, seatNumber, showTimeId) {
         },
         seatRow: parseInt(seatRow),
         seatNumber: parseInt(seatNumber),
-        price: 120.0,
-        paid: false,
+        price: price,
+        paid: true, // TODO remove?
+        attended: false,
     };
 
     try {
@@ -136,6 +179,7 @@ async function getShowTimeInfo() {
     return fetch('http://localhost:8080/showtime/' + sessionStorage.getItem("showTimeId"))
         .then(response => response.json())  // Convert the response to JSON format
         .then(data => {
+            console.log('Success:', data);
             return data;
         })
         .catch(error => {
@@ -143,6 +187,19 @@ async function getShowTimeInfo() {
         });
 }
 
+async function getShowTimeTickets() {
+    // Send the GET request to the server
+    return fetch('http://localhost:8080/tickets/showtime/' + sessionStorage.getItem("showTimeId"))
+        .then(response => response.json())  // Convert the response to JSON format
+        .then(data => {
+            return data;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+createCustomerDD();
 createTable();
 
 

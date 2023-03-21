@@ -10,7 +10,7 @@ async function main() {
     // loop through each movie in the movie schedule
     for (const movieId in movieSchedule) {
         // const movie = movieSchedule[movieId];
-        const { title, ageLimit, category, length, showTimes} = movieSchedule[movieId];
+        const {title, ageLimit, category, length, showTimes} = movieSchedule[movieId];
 
         // template literal string
         const movieTemplate = `
@@ -150,7 +150,7 @@ function createTimeSlotButton(showtime) {
     // add event listener to the new element
     buttonElement.addEventListener('click', () => {
         sessionStorage.setItem('showTimeId', showtime.id);
-        window.location.href = "theater.html";
+        window.location.href = "theaterCustomerPurchase.html";
     });
 
     return buttonElement;
