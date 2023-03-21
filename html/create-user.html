@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create a user</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../css/navbar.css">
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="../js/navbar2.js" defer></script>
+  <script src="../js/utils/promisHandling.js"></script>
+</head>
+<body>
+<div id="nav-placeholder"> </div>
+<br><br><br>
+<form action="http://localhost:8080/employee" method="post" id="formUser">
+
+  <label for="username"></label>
+  <input type="text" id="username" name="username" placeholder="Username"><br><br>
+  <label for="password"></label>
+  <input type="password" id="password" name="password" placeholder="Password"><br><br>
+  <label for="comfirmPassword"></label>
+  <input type="password" id="comfirmPassword" name="comfirmPassword" placeholder="Gentag adgangskode"><br><br>
+  <label for="ddRole"></label>
+  <select id="ddRole"></select> <br> <br>
+
+  <button id="pbSubmitMovie">Add Movie</button>
+</form>
+<script src="../js/staff/create-user.js"></script>
+</body>
+
+</html>
