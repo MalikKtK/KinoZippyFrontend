@@ -25,6 +25,7 @@ async function handleCustomerFormSubmit(event) {
             if (data) {
                 console.log("data: ", data)
                 alert("User oprettet")
+                window.location.href = "http://localhost:63342/KinoZippyFrontend/html/login.html"
             } else {
                 console.log("data: ", data)
                 alert("Der skete en fejl")

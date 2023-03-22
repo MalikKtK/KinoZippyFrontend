@@ -66,6 +66,7 @@ async function handleMovieFormSubmit(event) {
             if (data) {
                 console.log("data: ", data)
                 alert("Film oprettet")
+                window.location.href = "http://localhost:63342/KinoZippyFrontend/html/create-movie.html"
             } else {
                 console.log("data: ", data)
                 alert("Der skete en fejl")

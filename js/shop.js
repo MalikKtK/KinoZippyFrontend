@@ -21,6 +21,7 @@ async function handleShopFormSubmit(event) {
             if (data) {
                 console.log("data: ", data)
                 alert("Item oprettet")
+                window.location.href = "http://localhost:63342/KinoZippyFrontend/html/shopManager.html"
             } else {
                 console.log("data: ", data)
                 alert("Der skete en fejl")
