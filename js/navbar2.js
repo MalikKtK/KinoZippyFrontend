@@ -5,6 +5,7 @@ $(function(){
     $("#nav-placeholder-shop").load("../html/navbar-shop.html");
     $("#nav-placeholder-ticket").load("../html/navbar-ticket.html");
     $("#nav-placeholder-manager").load("../html/navbar-manager.html");
+    $("#logout-button").load("../html/logout.html");
 });
 function myFunction() {
     const x = document.getElementById("myTopnav");
