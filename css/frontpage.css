@@ -83,3 +83,25 @@
 .card.flipped .card-back {
     transform: rotateY(0);
 }
+
+.card-front button {
+    display: block;
+    margin: 0 auto;
+}
+
+.card img {
+    height: 300px;
+    width: 200px;
+}
+
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* four columns */
+    grid-template-rows: repeat(5, auto); /* five rows */
+    gap: 20px; /* spacing between cards */
+}
+
+.card {
+    /* card styles */
+}
