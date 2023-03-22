@@ -1,8 +1,9 @@
 // TMP SESSION STORAGE
-sessionStorage.setItem("user", {"id": 5, "username": "c1", "password": "123"});
-// sessionStorage.setItem("showTimeId", "1");
+sessionStorage.setItem("user", JSON.stringify({"id": 1, "username": "c1", "password": "123"}));
+sessionStorage.setItem("showTimeId", "1");
 
 async function createTable() {
+
     let showTime = await getShowTimeInfo();
 
     const price = document.getElementById("price");
@@ -109,14 +110,20 @@ async function createTable() {
 async function postTicket(seatRow, seatNumber, showTimeId, price) {
     const url = "http://localhost:8080/ticket";
 
+    const user = JSON.parse(sessionStorage.getItem("user"));
+    const id = user.id;
+
     const ticket = {
         showTime: {
             id: showTimeId,
         },
+        customer: {
+            id: id
+        },
         seatRow: parseInt(seatRow),
         seatNumber: parseInt(seatNumber),
         price: price,
-        paid: true, // TODO remove?
+        paid: true,
         attended: false,
     };
 

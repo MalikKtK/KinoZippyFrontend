@@ -1,5 +1,5 @@
 // TMP SESSION STORAGE
-sessionStorage.setItem("user", {"id": 5, "username": "c1", "password": "123"});
+sessionStorage.setItem("user", JSON.stringify({"id": 1, "username": "c1", "password": "123"}));
 sessionStorage.setItem("showTimeId", "1");
 
 async function createTable() {
@@ -7,16 +7,6 @@ async function createTable() {
 
     const price = document.getElementById("price");
     price.innerText = `price: ${showTime.price} dkk`;
-
-    const ddCategory = document.getElementById("ddCategory")
-
-    function fillAgeLimitDropDown(ageLimit) {
-        const el = document.createElement("option")
-        el.textContent = ageLimit
-        el.value = ageLimit
-        ddAgeLimit.appendChild(el)
-    }
-
 
     // Define the number of rows and columns
     const numRows = showTime.theater.rows;
@@ -123,8 +113,8 @@ async function createCustomerDD() {
     customers.forEach(customer => {
         const el = document.createElement("option")
         el.textContent = `[${customer.id}] : ${customer.username}`;
-        el.value = customers.id;
-        ddCustomer.appendChild(el)
+        el.value = customer.id;
+        ddCustomer.appendChild(el);
     });
 }
 
@@ -143,14 +133,22 @@ async function getCustomers() {
 async function postTicket(seatRow, seatNumber, showTimeId, price) {
     const url = "http://localhost:8080/ticket";
 
+    const select = document.getElementById("ddCustomer");
+    const options = select.options;
+    const id = options[options.selectedIndex].value;
+    console.log(id);
+
     const ticket = {
         showTime: {
             id: showTimeId,
         },
+        customer: {
+            id: id
+        },
         seatRow: parseInt(seatRow),
         seatNumber: parseInt(seatNumber),
         price: price,
-        paid: true, // TODO remove?
+        paid: true,
         attended: false,
     };
 
