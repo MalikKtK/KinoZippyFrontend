@@ -46,6 +46,7 @@ async function handleUserFormSubmit(event) {
             if (data) {
                 console.log("data: ", data)
                 alert("User oprettet")
+                window.location.href = "http://localhost:63342/KinoZippyFrontend/html/create-user.html"
             } else {
                 console.log("data: ", data)
                 alert("Der skete en fejl")

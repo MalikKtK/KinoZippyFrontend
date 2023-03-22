@@ -135,6 +135,7 @@ function updateMovie(movieId) {
             .then((result) => {
                 if (result) {
                     alert("Movie updated");
+                    window.location.href = "http://localhost:63342/KinoZippyFrontend/html/edit-movie.html"
                 } else {
                     alert("Movie is not updated");
                 }
@@ -158,6 +159,7 @@ function deleteMovie(movieId) {
             .then((result) => {
                 if (result) {
                     alert("Movie deleted");
+                    window.location.href = "http://localhost:63342/KinoZippyFrontend/html/edit-movie.html"
                 } else {
                     alert("Movie is not deleted");
                 }
