@@ -1,5 +1,5 @@
 // TMP SESSION STORAGE
-sessionStorage.setItem("user", {"id": 5, "username": "c1", "password": "123"});
+sessionStorage.setItem("user", JSON.stringify({"id": 1, "username": "c1", "password": "123"}));
 sessionStorage.setItem("showTimeId", "1");
 
 async function createTable() {
@@ -13,8 +13,8 @@ async function createTable() {
     const tickets = await getShowTimeTickets();
 
     getShowTimeTickets().then((tickets) => {
-        console.log("tickets");
-        console.log(JSON.stringify(tickets));
+        // console.log("tickets");
+        // console.log(JSON.stringify(tickets));
     });
 
     // Keep track of the currently selected button
@@ -88,59 +88,30 @@ async function putTicketStatus(status, ticketLocation, tickets, showTimeId) {
     // get ticket
     const [seatRow, seatNumber] = ticketLocation.split("_");
     let ticket = await tickets.find(ticket => ticket.seatRow == seatRow && seatNumber);
+    console.log(ticket);
+    console.log("here we are")
 
     const url = "http://localhost:8080/tickets/" + ticket.id;
     console.log(url);
 
-    const postTicket = {
-        id: ticket.id,
-        showTime: {
-            id: showTimeId,
-        },
-        seatRow: parseInt(seatRow),
-        seatNumber: parseInt(seatNumber),
-        price: ticket.price,
-        paid: ticket.paid,
-        attended: status,
-    };
+    ticket.attended = status;
+    ticket.showTime = {id: showTimeId};
+    ticket.customer = {id: ticket.customer.id};
+    console.log(JSON.stringify(ticket));
 
     try {
         const response = await fetch(url, {
             method: "PUT",
-            body: JSON.stringify(postTicket),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error("Failed to create ticket");
-        }
-
-        const data = await response.json();
-    } catch (error) {
-        console.error(error);
-        alert("An error occurred while creating the ticket");
-    }
-}
-
-async function postTicket(ticket, showTimeId) {
-    const url = "http://localhost:8080/ticket";
-
-    try {
-        const response = await fetch(url, {
-            method: "POST",
             body: JSON.stringify(ticket),
             headers: {
                 "Content-Type": "application/json",
             },
+            mode: "cors",
         });
 
         if (!response.ok) {
             throw new Error("Failed to create ticket");
         }
-
-        const data = await response.json();
     } catch (error) {
         console.error(error);
         alert("An error occurred while creating the ticket");
