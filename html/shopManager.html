@@ -2,38 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Create a movie</title>
+    <title>Shop manager</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../css/navbar.css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="../js/navbar2.js" defer></script>
     <script src="../js/utils/promisHandling.js"></script>
+    <link rel="stylesheet" href="../css/form.css">
 </head>
 <body>
 <br>
 <br>
-<div id="nav-placeholder"> </div>
+<div id="nav-placeholder-shop"> </div>
 <div class="createShop">
+    <br>
     <div class="container">
-        <h3>Cinema shop</h3>
+        <h3>Cinema shop manager</h3>
     </div>
 </div>
 <form action="http://localhost:8080/shop" method="post" id="formShop">
+
+    <div class="contact-form">
+
 
     <label for="name"></label>
     <input type="text" name="name" id="name" placeholder="Item name" required><br> <br>
 
     <label for="price"></label>
-    <input type="number" name="price" id="price" placeholder="price" required><br><br>
+    <input type="number" name="price" id="price" placeholder="Price" required><br><br>
 
     <label for="quantity"></label>
-    <input type="number" name="quantity" id="quantity" placeholder="quantity" required min="1" max="10" step="1"><br> <br>
+    <input type="number" name="quantity" id="quantity" placeholder="Quantity" required min="1" max="10" step="1"><br> <br>
 
     <button id="pbSubmitShop">Checkout</button>
     <div class="cart">
-        <h3>Cart:</h3>
         <button id="pbViewCart">View Cart</button>
         <button id="pbClearCart">Clear Cart</button>
+    </div>
     </div>
 
 </form>

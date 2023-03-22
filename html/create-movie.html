@@ -8,15 +8,19 @@
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="../js/navbar2.js" defer></script>
     <script src="../js/utils/promisHandling.js"></script>
+    <link rel="stylesheet" href="../css/form.css">
 </head>
 <body>
-<div id="nav-placeholder"> </div>
+<div id="nav-placeholder-operator"> </div>
 <div class="createMovie">
     <div class="container">
         <h3>Add a movie:</h3>
     </div>
 </div>
 <form action="http://localhost:8080/movie" method="post" id="formMovie">
+
+    <div class="contact-form">
+
 
     <label for="title"></label>
     <input type="text" name="title" id="title" placeholder="Movie title" required><br> <br>
@@ -34,7 +38,11 @@
     <input type="number" name="rating" id="rating" placeholder="Rating 1-10" required min="1" max="10" step="1"><br> <br>
 
     <button id="pbSubmitMovie">Add Movie</button>
+    </div>
+
 </form>
+
+
 <script src="../js/staff/create-movie.js"></script>
 </body>
 
