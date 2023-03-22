@@ -10,16 +10,23 @@ async function main() {
     // loop through each movie in the movie schedule
     for (const movieId in movieSchedule) {
         // const movie = movieSchedule[movieId];
-        const {title, ageLimit, category, length, showTimes} = movieSchedule[movieId];
+        const {
+            movie_title,
+            movie_age_limit,
+            movie_category,
+            movie_length_in_minutes,
+            showTimes
+        } = movieSchedule[movieId];
+        console.log(movieSchedule[movieId]);
 
         // template literal string
         const movieTemplate = `
             <div class="d-flex flex-column" >
                 <div class="movie_info d-flex justify-content-between">
-                    <p><b>${title}</b></p>
-                    <p>${ageLimit}</p>
-                    <p>${category}</p>
-                    <p>${length} min</p>
+                    <p><b>${movie_title}</b></p>
+                    <p>${movie_age_limit}</p>
+                    <p>${movie_category}</p>
+                    <p>${movie_length_in_minutes} min</p>
                 </div>
                 <div class="movie_schedule d-flex justify-content-between"></div>
             </div>
@@ -38,7 +45,7 @@ async function main() {
         // group showTimes by day
         const showTimesByDay = {};
         for (const showtime of showTimes) {
-            const showtimeDate = new Date(showtime.startTime);
+            const showtimeDate = new Date(showtime.showtime_start_time);
             const differenceTime = showtimeDate.getTime() - startDate.getTime();
             const differenceDays = Math.ceil(differenceTime / (1000 * 3600 * 24));
             const dayOfWeek = schedule[differenceDays];
@@ -47,6 +54,8 @@ async function main() {
             }
             showTimesByDay[dayOfWeek].push(showtime);
         }
+
+        console.log(showTimesByDay);
 
         // create columns for each day
         const columns = {};
@@ -65,7 +74,7 @@ async function main() {
             const column = columns[day];
             const showTimes = showTimesByDay[day] || [];
             for (const showtime of showTimes) {
-                const timeSlotButton = createTimeSlotButton(showtime);
+                const timeSlotButton = createTimeSlotButton(showtime, movieSchedule[movieId].theater);
                 column.appendChild(timeSlotButton);
             }
         }
@@ -83,25 +92,48 @@ async function main() {
 }
 
 async function getMovieSchedule() {
-    let showTimes = await getShowTimes();
+    // Send the GET request to the server
+    return fetch('http://localhost:8080/movie_schedule')
+        .then(response => response.json())  // Convert the response to JSON format
+        .then(data => {
 
-    return showTimes.reduce((movieSchedule, showtime) => {
-        const movieId = showtime.movie.id;
+            const moviesScheduleById = {};
 
-        if (!movieSchedule[movieId]) {
-            movieSchedule[movieId] = {
-                id: movieId,
-                title: showtime.movie.title,
-                ageLimit: showtime.movie.ageLimit,
-                category: showtime.movie.category,
-                length: showtime.movie.length,
+            for (const item of data) {
+                const movieId = item.movie_id;
 
-                showTimes: []
-            };
-        }
-        movieSchedule[movieId].showTimes.push(showtime);
-        return movieSchedule;
-    }, {});
+                // Create a new movie object
+                if (!moviesScheduleById[movieId]) {
+                    moviesScheduleById[movieId] = {
+                        movie_title: item.movie_title,
+                        movie_category: item.movie_category,
+                        movie_length_in_minutes: item.movie_length_in_minutes,
+                        movie_age_limit: item.movie_age_limit,
+                        movie_rating: item.movie_rating,
+                        theater: {
+                            theater_id: item.theater_id,
+                            theater_name: item.theater_name,
+                            theater_seats: item.theater_seats,
+                        },
+                        showTimes: []
+                    };
+                }
+
+                // Add the showtime object to the showtimes array for the theater
+                moviesScheduleById[movieId].showTimes.push({
+                    showtime_id: item.showtime_id,
+                    showtime_price: item.showtime_price,
+                    showtime_start_time: item.showtime_start_time,
+                    showtime_end_time: item.showtime_end_time,
+                    showtime_tickets: item.showtime_tickets,
+                });
+            }
+
+            return moviesScheduleById;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
 
 
@@ -129,17 +161,17 @@ function createSchedule(startDate, numberOfDays) {
     return schedule;
 }
 
-function createTimeSlotButton(showtime) {
-    const startTime = new Date(showtime.startTime);
-    const totalSeats = showtime.theater.rows * showtime.theater.numberedSeats;
-    const availableSeats = totalSeats - showtime.tickets.length;
+function createTimeSlotButton(showtime, theater) {
+    const startTime = new Date(showtime.showtime_start_time);
+    // const totalSeats = showtime.theater.rows * showtime.theater.numberedSeats;
+    const availableSeats = theater.theater_seats - showtime.showtime_tickets;
 
     // template literal string
     const showtimeTemplate = `
         <div class="btn btn-primary btn-block d-flex flex-column">
-            <div>${showtime.theater.name}</div>
+            <div>${theater.theater_seats}</div>
             <div>${startTime.getHours()}:${startTime.getMinutes().toString().padStart(2, '0')}</div>
-            <div>${availableSeats} / ${totalSeats}</div>
+            <div>${availableSeats} / ${theater.theater_seats}</div>
         </div>
     `;
 
