@@ -9,7 +9,7 @@ function login() {
         window.location.href = "manager.html";
     }
     else if (username === "shop" && password === "123") {
-        window.location.href = "shopManager.html";
+        window.location.href = "shop.html";
     }
     else if (username === "operator" && password === "123") {
         window.location.href = "index.html";
