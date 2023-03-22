@@ -13,14 +13,6 @@
 </head>
 <body>
 
-<div class="topnav" id="myTopnav">
-    <a href="index.html">Tilbage til forsiden</a>
-
-</div>
-
-<!--Navigation bar-->
-<div id="nav-placeholder"></div>
-<!--end of Navigation bar-->
 
 <div class="wrapper">
     <div class="logo">
@@ -32,8 +24,19 @@
     </div>
     <br>
 
-    <h1>Login</h1>
-    <form action="http://localhost:8080/login" method="POST">
+    <h1>Customer Login</h1>
+    <form action="http://localhost:8080/customerLogin" method="POST">
+        <label for="username">Username:</label>
+        <input type="text" id="customerUsername" name="username"><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="customerPassword" name="password"><br><br>
+        <input type="submit" value="Login"> <br>
+        <a href="create-customer.html">Click here to sign up!</a>
+    </form>
+    <br>
+
+    <h1>Employee Login</h1>
+    <form action="http://localhost:8080/employeeLogin" method="POST">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username"><br><br>
         <label for="password">Password:</label>
