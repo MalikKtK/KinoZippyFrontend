@@ -3,6 +3,10 @@ main();
 async function main() {
     const movieSchedule = await getMovieSchedule();
 
+    const customer = JSON.parse(sessionStorage.getItem("customer"));
+    console.log(customer);
+
+
     // get the unordered list element
     const movieList = document.getElementById("movie_list");
     movieList.classList.add('list-unstyled');
@@ -17,7 +21,6 @@ async function main() {
             movie_length_in_minutes,
             showTimes
         } = movieSchedule[movieId];
-        console.log(movieSchedule[movieId]);
 
         // template literal string
         const movieTemplate = `
@@ -54,8 +57,6 @@ async function main() {
             }
             showTimesByDay[dayOfWeek].push(showtime);
         }
-
-        console.log(showTimesByDay);
 
         // create columns for each day
         const columns = {};
@@ -136,18 +137,6 @@ async function getMovieSchedule() {
         });
 }
 
-
-async function getShowTimes() {
-    // Send the GET request to the server
-    return fetch('http://localhost:8080/showtimes')
-        .then(response => response.json())  // Convert the response to JSON format
-        .then(data => {
-            return data;
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-}
 
 function createSchedule(startDate, numberOfDays) {
     let schedule = [];

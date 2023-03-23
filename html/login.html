@@ -7,8 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../css/navbar.css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-
-
+    <script src="../js/login.js" defer></script>
 
 </head>
 <body>
@@ -25,24 +24,26 @@
     <br>
 
     <h1>Customer Login</h1>
-    <form action="http://localhost:8080/customerLogin" method="POST">
-        <label for="username">Username:</label>
+    <form id="formCustomer">
+        <label for="customerUsername">Username:</label>
         <input type="text" id="customerUsername" name="username"><br><br>
-        <label for="password">Password:</label>
+        <label for="customerPassword">Password:</label>
         <input type="password" id="customerPassword" name="password"><br><br>
-        <input type="submit" value="Login"> <br>
+        <input type="submit" value="Login"><br>
         <a href="create-customer.html">Click here to sign up!</a>
     </form>
     <br>
 
+
     <h1>Employee Login</h1>
-    <form action="http://localhost:8080/employeeLogin" method="POST">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username"><br><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password"><br><br>
+    <form id="formEmployee">
+        <label for="employeeUsername">Username:</label>
+        <input type="text" id="employeeUsername" name="username"><br><br>
+        <label for="employeePassword">Password:</label>
+        <input type="password" id="employeePassword" name="password"><br><br>
         <input type="submit" value="Login">
     </form>
+
 </div>
 </body>
 </html>
