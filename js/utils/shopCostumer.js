@@ -1,7 +1,8 @@
 const sizeSelect = document.querySelector('select[name="sizes"]');
 const quantityInput = document.querySelector('input[name="quantity"]');
-const addToCartButton = document.querySelector('.add-to-cart');
+const addToCartButton = document.getElementById('add-to-cart');
 const productSelect = document.getElementById('productsSelect');
+const checkoutButton = document.getElementById('checkoutButton');
 
 // product information from database
 let products = [];
@@ -28,10 +29,7 @@ async function populateProducts() {
 
         // create a new object to hold product information and options
         const productOption = {
-            id: p.id,
-            name: p.name,
-            price: p.price,
-            quantity: p.quantity
+            id: p.id, name: p.name, price: p.price, quantity: p.quantity
         };
 
         // attach the productOption object to the option element
@@ -63,10 +61,7 @@ document.getElementById("shopForm").addEventListener("submit", async function (e
     // add item to cart
     if (!cart[item.id]) {
         cart[item.id] = {
-            id: item.id,
-            name: item.name,
-            price: item.price,
-            quantity: requestedQuantity
+            id: item.id, name: item.name, price: item.price, quantity: requestedQuantity
         };
     } else {
         cart[item.id].quantity += requestedQuantity;
@@ -96,18 +91,51 @@ function updateCart() {
 }
 
 
-// function checkout() {
-//     if (cart.length === 0) {
-//         alert("Your cart is empty!");
-//         return;
-//     }
-//
-//     var total = cart.reduce(function(sum, product) {
-//         return sum + product.price;
-//     }, 0);
-//
-//     alert("Your total is kr: " + total.toFixed(2) + ". Thank you for shopping!");
-//     cart = [];
-//     window.location.href = "index.html";
-//     //updateCart();
-// }
+checkoutButton.addEventListener("click", checkout);
+
+async function checkout() {
+    // check if cart is empty
+    if (cart.length === 0) {
+
+        alert("Your cart is empty!");
+        return;
+    }
+
+    alert("Thank you for your purchase!");
+
+    // update product quantities
+    let updatedProducts = [];
+    for (const id in cart) {
+        const oldProduct = products.find(obj => obj.id === parseInt(id));
+        oldProduct.quantity -= cart[id].quantity;
+        updatedProducts.push(oldProduct);
+    }
+
+    console.log(JSON.stringify(updatedProducts));
+
+    // send cart to server
+    const url = 'http://localhost:8080/shop';
+    const options = {
+        method: 'PUT', headers: {
+            'Content-Type': 'application/json'
+        }, body: JSON.stringify(updatedProducts)
+    };
+
+    // Send the request
+    fetch(url, options)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+
+    // refresh page
+    window.location.reload();
+}

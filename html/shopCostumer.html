@@ -41,8 +41,10 @@
             <input type="number" name="quantity" min="1" max="10" value="1">
         </div>
         <div class="product">
-            <button class="add-to-cart">Add to Cart</button>
-            <button class="checkout">checkout</button>
+            <!--The button element has a default type attribute of "submit", which means that if
+            you don't specify a type, the button will submit the form that it's in when clicked.-->
+            <button id="add-to-cart">Add to Cart</button>
+            <button id="checkoutButton" type="button">checkout</button>
         </div>
         <ul id="cart-items">
         </ul>
