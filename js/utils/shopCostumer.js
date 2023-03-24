@@ -75,15 +75,29 @@ function updateCart() {
     const cartTotal = document.getElementById("cart-total");
     let total = 0;
 
-    // remove previous items
+    // remove previous items and buttons
     cartItems.innerHTML = "";
 
-    // add new items
+    // add new items and buttons
     for (const id in cart) {
         const quantityPrice = cart[id].price * cart[id].quantity;
         const li = document.createElement("li");
         li.innerHTML = `${cart[id].name} x ${cart[id].quantity}  : ${quantityPrice} kr.`; //kr per item
         cartItems.appendChild(li);
+
+        // Clear items button
+        const ClearBtn = document.createElement("button");
+        ClearBtn.innerHTML = "Clear";
+        ClearBtn.setAttribute("id", id);
+
+        // event listener to clear the items
+        ClearBtn.addEventListener("click", function() {
+            delete cart[id];
+            updateCart();
+        });
+
+        li.appendChild(ClearBtn);
+
         total += quantityPrice;
     }
 
