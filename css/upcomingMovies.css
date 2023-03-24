@@ -1,0 +1,111 @@
+/* Set background color for body */
+
+body {
+    background: url("https://media.idownloadblog.com/wp-content/uploads/2020/07/iPad-gradient-wallpaper-idownloadblog-V1byArthur1992as.png") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding-top: 50px;
+}
+
+/* Style the movie schedule */
+.movie_schedule {
+    margin-top: 10px;
+}
+
+.movie_schedule ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.movie_schedule ul li {
+    margin-bottom: 10px;
+}
+
+.movie_schedule .btn {
+    background-color: #4CAF50;
+    color: white;
+    margin-bottom: 5px;
+}
+
+.movie_schedule .btn:hover {
+    background-color: #3e8e41;
+}
+
+/* Style the movie info */
+.movie_info {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.movie_info p {
+    margin: 0;
+}
+
+.movie_info b {
+    font-weight: bold;
+}
+
+.movie_info p:first-child {
+    font-size: 24px;
+    color: #ffffff;
+}
+
+.movie_info p:nth-child(2) {
+    color: #ffffff;
+}
+
+.movie_info p:nth-child(3) {
+    color: #ffffff;
+}
+.movie_info p:nth-child(4) {
+    color: #ffffff;
+}
+
+.movie_info p:last-child {
+    font-weight: bold;
+    color: #ffffff;
+}
+ul.list-unstyled p.text-center {
+    border: 2px solid black;
+    padding: 10px;
+}
+
+
+.movie_info {
+    border: 1px solid #808080;
+    padding: 10px;
+
+    margin-bottom: 10px;
+}
+
+/* Style for movie_info p tags */
+.movie_info p {
+    margin: 0;
+}
+
+/* Style for movie_schedule div */
+.movie_schedule {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* Style for movie_schedule p tags */
+.movie_schedule p {
+    padding: 5px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.d-flex {
+    color: #111111;
+}
+
+.btn.btn-primary {
+    background-color: #1db232;
+    border-color: #111111;
+}

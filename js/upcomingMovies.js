@@ -19,7 +19,8 @@ async function main() {
             movie_age_limit,
             movie_category,
             movie_length_in_minutes,
-            showTimes
+            showTimes,
+            movie_rating,
         } = movieSchedule[movieId];
 
         // template literal string
@@ -30,6 +31,7 @@ async function main() {
                     <p>${movie_age_limit}</p>
                     <p>${movie_category}</p>
                     <p>${movie_length_in_minutes} min</p>
+                    <p>${movie_rating}</p>
                 </div>
                 <div class="movie_schedule d-flex justify-content-between"></div>
             </div>
@@ -144,11 +146,12 @@ function createSchedule(startDate, numberOfDays) {
     for (let i = 0; i < numberOfDays; i++) {
         const date = new Date(startDate);
         date.setDate(date.getDate() + i);
-        schedule.push(`${date.toLocaleDateString(undefined, {weekday: 'long'})} ${date.getDate()}/${date.getMonth() + 1}`);
-    }
+        schedule.push(`${date.toLocaleDateString(undefined, {weekday: 'long'}).charAt(0).toUpperCase() + date.toLocaleDateString(undefined, {weekday: 'long'}).slice(1)} ${date.getDate()}/${date.getMonth() + 1}`);
 
+    }
     return schedule;
 }
+
 
 function createTimeSlotButton(showtime, theater) {
     const startTime = new Date(showtime.showtime_start_time);
