@@ -66,11 +66,11 @@ function createQuantityInput(shop) {
 function createSubmitButton(shop) {
     console.log(shop);
 
-    return `<button onclick="updateShop(${shop.id})" id="pbSubmit">Edit Movie</button>`;
+    return `<button onclick="updateShop(${shop.id})" id="pbSubmit">Edit Shop</button>`;
 }
 
 function deleteSubmitButton(shop) {
-    return `<button onclick="deleteShop(${shop.id})" id="pbSubmit">Delete Movie</button>`;
+    return `<button onclick="deleteShop(${shop.id})" id="pbSubmit">Delete Shop</button>`;
 }
 
 function updateShop(shopId) {
