@@ -110,8 +110,8 @@ async function createTable() {
 async function postTicket(seatRow, seatNumber, showTimeId, price) {
     const url = "http://localhost:8080/ticket";
 
-    const user = JSON.parse(sessionStorage.getItem("user"));
-    const id = user.id;
+    const customer = JSON.parse(sessionStorage.getItem("customer"));
+    const id = customer.id;
 
     const ticket = {
         showTime: {

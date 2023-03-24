@@ -1,46 +1,53 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Shopping Cart Example</title>
-  <link rel="stylesheet" href="../css/shopCostumer.css">
-  <script src="../js/utils/shopCostumer.js" defer></script>
-  <link rel="stylesheet" href="../css/navbar.css">
-  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="../js/navbar2.js" defer></script>
+    <title>Shopping Cart Example</title>
+    <link rel="stylesheet" href="../css/shopCostumer.css">
+    <script src="../js/utils/shopCostumer.js" defer></script>
+    <link rel="stylesheet" href="../css/navbar.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="../js/navbar2.js" defer></script>
 </head>
 <body>
-<div id="nav-placeholder"> </div>
+<div id="nav-placeholder"></div>
 <br><br>
 <h1>Shopping Cart</h1>
 
 <div class="products">
-  <form>
-    <div class="product">
-      <h3>Products</h3>
-      <select name="products">
-        <option value="">--Select a product--</option>
-        <option value="popcorn" data-price-small="15" data-price-medium="25" data-price-large="35">Popcorn</option>
-        <option value="soda" data-price-small="15" data-price-medium="25" data-price-large="35">Soda</option>
-        <option value="snacks" data-price-small="10" data-price-medium="15" data-price-large="20">Snacks</option>
-      </select>
-    </div>
-    <div class="product">
-      <h3>Sizes</h3>
-      <select name="sizes">
-        <option value="">--Select a size--</option>
-        <option value="small" data-price="15">Small</option>
-        <option value="medium" data-price="25">Medium</option>
-        <option value="large" data-price="35">Large</option>
-      </select>
-    </div>
-    <div class="product">
-      <h3>Quantity</h3>
-      <input type="number" name="quantity" min="1" max="10" value="1">
-    </div>
-    <div class="product">
-      <button class="add-to-cart">Add to Cart</button>
-    </div>
-  </form>
+    <form id="shopForm">
+
+        <div class="product">
+            <h3>Products</h3>
+            <select id="productsSelect">
+                <!--        <option value="">&#45;&#45;Select a product&#45;&#45;</option>-->
+                <!--        <option value="popcorn" data-price-small="15" data-price-medium="25" data-price-large="35">Popcorn</option>-->
+                <!--        <option value="soda" data-price-small="15" data-price-medium="25" data-price-large="35">Soda</option>-->
+                <!--        <option value="snacks" data-price-small="10" data-price-medium="15" data-price-large="20">Snacks</option>-->
+            </select>
+        </div>
+
+        <!--    <div class="product">-->
+        <!--      <h3>Sizes</h3>-->
+        <!--      <select name="sizes">-->
+        <!--        <option value="">&#45;&#45;Select a size&#45;&#45;</option>-->
+        <!--        <option value="small" data-price="15">Small</option>-->
+        <!--        <option value="medium" data-price="25">Medium</option>-->
+        <!--        <option value="large" data-price="35">Large</option>-->
+        <!--      </select>-->
+        <!--    </div>-->
+
+        <div class="product">
+            <h3>Quantity</h3>
+            <input type="number" name="quantity" min="1" max="10" value="1">
+        </div>
+        <div class="product">
+            <button class="add-to-cart">Add to Cart</button>
+            <button class="checkout">checkout</button>
+        </div>
+        <ul id="cart-items">
+        </ul>
+        <p id="cart-total">TOTAL: 0</p>
+    </form>
 </div>
 
 
