@@ -5,13 +5,28 @@
     <link rel="stylesheet" href="../css/navbar.css">
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="../js/navbar2.js" defer></script>
+    <script src="../js/ticketSalesReport.js" defer></script>
+    <link rel="stylesheet" href="../css/manager.css">
     <title>Manager</title>
+
 </head>
 <body>
 <div id="nav-placeholder-manager"> </div>
-<br><br><br>
-    <h1>Manager</h1>
+<h1>Ticket statistics</h1>
 
+<table>
+    <thead>
+    <tr>
+        <th>Showtime ID</th>
+        <th>Title</th>
+        <th>Theater</th>
+        <th>Tickets Sold</th>
+        <th>Tickets Attended</th>
+    </tr>
+    </thead>
+    <tbody id="report-body">
+    </tbody>
+</table>
 
 
 </body>
