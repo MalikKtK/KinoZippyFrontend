@@ -1,9 +1,15 @@
 body {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    margin: 0;
-    background-color: #f2f2f2;
+    background: url("https://media.idownloadblog.com/wp-content/uploads/2020/07/iPad-gradient-wallpaper-idownloadblog-V1byArthur1992as.png") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding-top: 50px;
+}
+@media (max-width: 768px) {
+    body {
+        background-attachment: scroll;
+    }
 }
 
 .cart {
