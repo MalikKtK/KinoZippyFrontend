@@ -1,10 +1,12 @@
 main();
 
+
+let redirectUrl;
+
 async function main() {
     const movieSchedule = await getMovieSchedule();
 
-    const customer = JSON.parse(sessionStorage.getItem("customer"));
-    console.log(customer);
+    roleRedirect();
 
 
     // get the unordered list element
@@ -174,9 +176,26 @@ function createTimeSlotButton(showtime, theater) {
     // add event listener to the new element
     buttonElement.addEventListener('click', () => {
         sessionStorage.setItem('showTimeId', showtime.id);
-        window.location.href = "theaterCustomerPurchase.html";
+        window.location.href = redirectUrl;
     });
 
     return buttonElement;
+}
+
+function roleRedirect() {
+    const customer = JSON.parse(sessionStorage.getItem("customer"));
+    const employee = JSON.parse(sessionStorage.getItem("employee"));
+    if (customer) {
+        redirectUrl = "theaterCustomerPurchase.html";
+    } else {
+        switch (employee.role) {
+            case "MANAGER":
+                redirectUrl = "theaterEmployeePurchase.html";
+                break;
+            case "TICKET_INSPECTOR":
+                redirectUrl = "theaterCheckIn.html";
+                break;
+        }
+    }
 }
 
