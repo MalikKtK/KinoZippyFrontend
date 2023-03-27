@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create a movie</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../css/navbar.css">
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="../js/navbar2.js" defer></script>
+  <script src="../js/utils/promisHandling.js"></script>
+  <link rel="stylesheet" href="../css/form.css">
+</head>
+<body>
+<div id="nav-placeholder-ticket"> </div>
+<div class="createMovie">
+  <div class="container">
+    <h3>Add a movie:</h3>
+  </div>
+</div>
+<form action="http://localhost:8080/showtime" method="post" id="formShowTime">
+
+  <div class="contact-form">
+
+
+    <label for="ddTheater"></label>
+    <select id="ddTheater"></select> <br> <br>
+
+    <label for="ddMovie"></label>
+    <select id="ddMovie"></select> <br> <br>
+
+    <label for="price"></label>
+    <input type="number" name="price" id="price" placeholder="Price" required><br><br>
+
+    <label for="startTime">Start Time:</label>
+    <input type="datetime-local" id="startTime" name="startTime" required><br><br>
+
+    <label for="endTime">End Time:</label>
+    <input type="datetime-local" id="endTime" name="endTime" required><br><br>
+
+    <button id="pbSubmit">Add ShowTIme</button>
+  </div>
+
+</form>
+
+
+<script src="../js/create-showtime.js"></script>
+</body>
+
+</html>
