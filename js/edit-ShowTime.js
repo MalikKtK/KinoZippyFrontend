@@ -60,7 +60,8 @@ function getSelectedShowTime() {
     if (selectedShowTimeIndex < 0) {
         throw new Error("No ShowTIme is selected");
     }
-    return ddFindShowTime.options[selectedShowTimeIndex].showTime;
+
+    return ddFindShowTime.options[selectedShowTimeIndex].showtime;
 }
 
 
@@ -74,20 +75,22 @@ function createShowTimeInputs(showTime) {
         return theaterInput + movieInput + priceInput + startTimeInput + endTimeInput;
     } catch (error) {
         console.log("error: ", error);
+
         return new Error("Could not create movie inputs");
     }
+
 }
 
 function createTheaterInput(showTime) {
     const theaterDropdown = document.createElement("select");
-    const labelTheater = `<label For="ddTheater">Theater: ${showTime.theater}</label>`;
+    const labelTheater = `<label For="ddTheater">Theater: ${showTime.theater.name}</label>`;
     theaterDropdown.id = "ddTheater";
     return labelTheater + theaterDropdown.outerHTML + "<br><br>";
 }
 
 function createMovieInput(showTime) {
     const movieDropdown = document.createElement("select");
-    const labelMovie = `<label For="ddMovie">Movie: ${showTime.movie}</label>`;
+    const labelMovie = `<label For="ddMovie">Movie: ${showTime.movie.title}</label>`;
     movieDropdown.id = "ddMovie";
     return labelMovie + movieDropdown.outerHTML + "<br><br>";
 }
@@ -114,7 +117,7 @@ function createEndTimeInput(showTime) {
 function createSubmitButton(showTime) {
     console.log(showTime);
 
-    return `<button onclick="updateShowTIme(${showTime.id})" id="pbSubmit">Edit ShowTime</button>`;
+    return `<button onclick="updateShowTIme(${showTime.id})" id="pbSubmit">Edit ShowTime</button> <br><br>`;
 }
 
 function deleteSubmitButton(showTime) {
@@ -122,54 +125,84 @@ function deleteSubmitButton(showTime) {
 }
 
 
-function updateShowTIme(showTimeId) {
-    getLocalEntity("showTime", showTimeId).then(showTime => {
-        showTime.title = document.getElementById("title").value;
-        showTime.ageLimit = document.getElementById("ddAgeLimit").value;
-        showTime.category = document.getElementById("ddCategory").value;
-        showTime.length = document.getElementById("length").value;
-        showTime.rating = document.getElementById("rating").value;
-        console.log(showTime);
-        return showTime;
-    }).then(showTime => {
-        updateLocalEntity("showTime", showTime, showTime.id)
+async function updateShowTIme(showTimeId) {
+    // create showtime
+    const showtime = {
+        theater: {
+            id: document.getElementById("ddTheater").value,
+        },
+        movie: {
+            id: document.getElementById("ddMovie").value,
+        },
+        startTime: document.getElementById('startTime').value,
+        endTime: document.getElementById('endTime').value,
+        price: document.getElementById('price').value,
+    };
 
-            .then((result) => {
-                if (result) {
-                    alert("showTime updated");
-                    window.location.href = "http://localhost:63342/KinoZippyFrontend/html/edit-showtime.html"
-                } else {
-                    alert("ShowTime is not updated");
-                }
-            }).catch((error) => {
-            alert("Could not reach server");
-            console.log(error);
+    // put to server
+    const url = "http://localhost:8080/showtime/";
+    try {
+        const response = await fetch(url + showTimeId, {
+            method: "PUT",
+            body: JSON.stringify(showtime),
+            headers: {
+                "Content-Type": "application/json",
+            },
         });
-    }).catch((error) => {
-        alert("Could not reach server");
-        console.log(error)
-    });
+
+        if (!response.ok) {
+            throw new Error("Failed to put showtime");
+        } else {
+            alert("Showtime updated");
+            window.location.reload();
+        }
+    } catch (error) {
+        console.log("error: ", error);
+    }
+
 }
 
-function deleteShowTime(showTimeId) {
-    getLocalEntity("showTime", showTimeId).then(showTime => {
-        console.log(showTime);
-        return showTime;
-    }).then(showTime => {
-        deleteLocalEntity("showTime", showTime, showTime.id)
 
-            .then((result) => {
-                if (result) {
-                    alert("ShowTime deleted");
-                    window.location.href = "http://localhost:63342/KinoZippyFrontend/html/edit-showtime.html"
-                } else {
-                    alert("ShowTime is not deleted");
-                }
-            }).catch((error) => {
-            alert("Could not reach server");
-            console.log(error);
+async function deleteShowTime(showTimeId) {
+    console.log(document.getElementById("ddTheater").value)
+    console.log(document.getElementById("ddMovie").value)
+    console.log(document.getElementById("ddTheater").value)
+    console.log(document.getElementById('startTime').value)
+
+    // create showtime
+    const showtime = {
+        theater: {
+            id: document.getElementById("ddTheater").value,
+        },
+        movie: {
+            id: document.getElementById("ddMovie").value,
+        },
+        startTime: document.getElementById('startTime').value,
+        endTime: document.getElementById('endTime').value,
+        price: document.getElementById('price').value,
+    };
+
+    // delete server
+    const url = "http://localhost:8080/showtime/";
+    try {
+        const response = await fetch(url + showTimeId, {
+            method: "DELETE",
+            body: JSON.stringify(showtime),
+            headers: {
+                "Content-Type": "application/json",
+            },
         });
-    })
+
+        if (!response.ok) {
+            throw new Error("Failed to delete showtime");
+        } else {
+            alert("Showtime Deleted");
+            window.location.reload();
+        }
+    } catch (error) {
+        console.log("error: ", error);
+        alert("This showtime is already booked so you can't delete it");
+    }
 }
 
 async function selectShowTime() {
@@ -184,16 +217,12 @@ async function selectShowTime() {
             .then(theaters => {
                 const fillTheaters = document.getElementById("ddTheater");
                 fillTheatersToDropDown(theaters, fillTheaters);
-                fillTheaters.value = selectedShowTime.theater;
+                fillTheaters.value = selectedShowTime.theater.id;
                 return getLocalEntities("movies")
             }).then(movies => {
-            const fillMovies = document.getElementById("ddMovies");
+            const fillMovies = document.getElementById("ddMovie");
             fillMoviesToDropDown(movies, fillMovies);
-            fillMovies.value = selectedShowTime.movie;
-        }).then((showTimes) => {
-            const fillShowTimes = document.getElementById("ddShowTimes");
-            fillShowTimesDropDown(showTimes, fillShowTimes);
-            fillShowTimes.value = selectedShowTime.showTime;
+            fillMovies.value = selectedShowTime.movie.id;
         })
     } catch (Error) {
         console.log("Det virkede ikke", Error)
