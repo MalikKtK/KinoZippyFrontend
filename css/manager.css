@@ -1,0 +1,48 @@
+body {
+    background: url("https://media.idownloadblog.com/wp-content/uploads/2020/07/iPad-gradient-wallpaper-idownloadblog-V1byArthur1992as.png") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding-top: 50px;
+}
+@media (max-width: 768px) {
+    body {
+        background-attachment: scroll;
+    }
+
+}
+
+/* Style for the h1 element */
+h1 {
+    font-size: 32px;
+    color: white;
+}
+
+/* Style for the table element */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+}
+
+/* Style for the th element */
+th {
+    background-color: #333;
+    color: #ffffff;
+    font-weight: bold;
+    padding: 10px;
+}
+
+/* Style for the td element */
+td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    color: white;
+}
+
+/* Style for the tbody element */
+tbody {
+    font-size: 18px;
+}
+
