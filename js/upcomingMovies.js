@@ -183,11 +183,8 @@ function createTimeSlotButton(showtime, theater) {
 }
 
 function roleRedirect() {
-    const customer = JSON.parse(sessionStorage.getItem("customer"));
     const employee = JSON.parse(sessionStorage.getItem("employee"));
-    if (customer) {
-        redirectUrl = "theaterCustomerPurchase.html";
-    } else {
+    if (employee) {
         switch (employee.role) {
             case "MANAGER":
                 redirectUrl = "theaterEmployeePurchase.html";
@@ -196,6 +193,9 @@ function roleRedirect() {
                 redirectUrl = "theaterCheckIn.html";
                 break;
         }
+    } else { // customer or no login
+        redirectUrl = "theaterCustomerPurchase.html";
     }
+
 }
 
