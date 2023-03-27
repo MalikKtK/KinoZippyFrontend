@@ -1,6 +1,5 @@
 main();
 
-
 let redirectUrl;
 
 async function main() {
@@ -183,19 +182,21 @@ function createTimeSlotButton(showtime, theater) {
 }
 
 function roleRedirect() {
-    const employee = JSON.parse(sessionStorage.getItem("employee"));
-    if (employee) {
-        switch (employee.role) {
-            case "MANAGER":
-                redirectUrl = "theaterEmployeePurchase.html";
-                break;
-            case "TICKET_INSPECTOR":
-                redirectUrl = "theaterCheckIn.html";
-                break;
-        }
-    } else { // customer or no login
-        redirectUrl = "theaterCustomerPurchase.html";
-    }
+    const fileName = location.href.split("/").slice(-1);
+    console.log(fileName[0]);
 
+    switch (fileName[0]) {
+        // employee
+        case "upcomingAttendance.html":
+            redirectUrl = "theaterCheckIn.html";
+            break;
+        case "upcomingMoviesEmployee.html":
+            redirectUrl = "theaterEmployeePurchase.html";
+            break;
+        // customer
+        default:
+            redirectUrl = "theaterCustomerPurchase.html";
+            break;
+    }
 }
 
