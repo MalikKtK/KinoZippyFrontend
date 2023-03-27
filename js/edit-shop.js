@@ -66,11 +66,11 @@ function createQuantityInput(shop) {
 function createSubmitButton(shop) {
     console.log(shop);
 
-    return `<button onclick="updateShop(${shop.id})" id="pbSubmit">Edit Shop</button>`;
+    return `<button onclick="updateShop(${shop.id})" id="pbSubmit">Edit item</button>`;
 }
 
 function deleteSubmitButton(shop) {
-    return `<button onclick="deleteShop(${shop.id})" id="pbSubmit">Delete Shop</button>`;
+    return `<button onclick="deleteShop(${shop.id})" id="pbSubmit">Delete item</button>`;
 }
 
 function updateShop(shopId) {
@@ -126,9 +126,10 @@ async function selectShop() {
     try {
         const selectedShop = getSelectedShop()
         console.log(selectedShop)
-        tableShop.innerHTML = await createShopInputs(selectedShop)
-        tableShop.innerHTML += createSubmitButton(selectedShop)
-        tableShop.innerHTML += deleteSubmitButton(selectedShop)
+        tableShop.innerHTML = await createShopInputs(selectedShop);
+        tableShop.innerHTML += createSubmitButton(selectedShop);
+        tableShop.innerHTML += "<br><br>";
+        tableShop.innerHTML += deleteSubmitButton(selectedShop);
 
     } catch (error) {
         console.log("error: ", error);
