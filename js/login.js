@@ -25,7 +25,6 @@ document.getElementById("formCustomer").addEventListener("submit", async functio
 });
 
 // login for employee
-// login for employee
 document.getElementById("formEmployee").addEventListener("submit", async function (event) {
     event.preventDefault(); // prevent form submission
 
@@ -66,3 +65,15 @@ document.getElementById("formEmployee").addEventListener("submit", async functio
         alert("Invalid username or password");
     }
 });
+
+main();
+
+function main() {
+    console.log("main");
+    const customer = JSON.parse(sessionStorage.getItem("customer"));
+    const employee = JSON.parse(sessionStorage.getItem("employee"));
+
+    console.log(customer);
+    console.log(employee);
+
+}
